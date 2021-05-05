@@ -17,15 +17,8 @@ public class MyService extends JobIntentService {
     private boolean isRandomGeneratorOn;
 
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.i("TAG", "In onBind(): ");
-        return super.onBind(intent);
-    }
-
-    static void enqueueWork(Context context, Intent intent){
-        enqueueWork(context,MyService.class, 123, intent);
+    static void enqueueWork(Context context, Intent intent) {
+        enqueueWork(context, MyService.class, 123, intent);
     }
 
     @Override
@@ -49,6 +42,12 @@ public class MyService extends JobIntentService {
         stopRandomNumberGenerator();
     }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.i("TAG", "In onBind(): ");
+        return super.onBind(intent);
+    }
 
     private void startRandomNumberGenerator() {
         while (isRandomGeneratorOn) {
