@@ -8,18 +8,15 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.JobIntentService;
 
 import java.util.Random;
 
-public class MyService extends IntentService {
+public class MyService extends JobIntentService {
     private int mRandomNumber;
     private boolean isRandomGeneratorOn;
-
-
-    public MyService() {
-        super(MyService.class.getSimpleName());
-    }
 
     class MyServiceBinder extends Binder {
         public MyService getService() {
@@ -36,13 +33,25 @@ public class MyService extends IntentService {
         return iBinder;
     }
 
-    @Override
+    /*@Override
     protected void onHandleIntent(@Nullable Intent intent) {
         //this method of IntentService class runs on background.
         //this class is deprecated in API level 30. Use JobIntentService class & its method onHandleWork().
+
+    }*/
+
+    @Override
+    protected void onHandleWork(@NonNull Intent intent) {
         isRandomGeneratorOn = true;
         startRandomNumberGenerator();
         Log.i("TAG", "In onHandleIntent, thread ID: " + Thread.currentThread().getId());
+    }
+
+    @Override
+    public boolean onStopCurrentWork() {
+        Log.i("TAG", "onStopCurrentWork Thread id: " + Thread.currentThread().getId()
+                + " Random num:" + mRandomNumber);
+        return super.onStopCurrentWork();
     }
 
     @Override

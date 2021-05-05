@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnStartMyService.setOnClickListener(v -> {
             Log.i("TAG", "Service Started: ");
-            startService(serviceIntent);
+            //startService(serviceIntent);
+            MyService.enqueueWork(this,MyService.class,123,serviceIntent);
         });
 
         btnStopMyService.setOnClickListener(v -> {
