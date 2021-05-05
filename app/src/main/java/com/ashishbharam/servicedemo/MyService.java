@@ -54,8 +54,7 @@ public class MyService extends JobIntentService {
                 Thread.sleep(1000);
                 if (isRandomGeneratorOn) {
                     mRandomNumber = new Random().nextInt(999 - 99) + 99;
-                    Log.i("TAG", "startRandomNumberGenerator Thread id: " + Thread.currentThread().getId()
-                            + " Random num:" + mRandomNumber);
+                    Log.i("TAG", "startRandomNumberGenerator Thread id: " + Thread.currentThread().getId() + " Random num:" + mRandomNumber);
                 }
                 else {
                     Log.i("TAG","Service stopped");

@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         btnStartMyService = findViewById(R.id.btnStartService);
         btnStopMyService = findViewById(R.id.btnStopService);
-        btnBind = findViewById(R.id.btnBindService);
-        btnUnbind = findViewById(R.id.btnUnbindService);
-        btnShowNumber = findViewById(R.id.btnShowNumber);
-        tvShowNumber = findViewById(R.id.tvRandomNum);
 
         serviceIntent = new Intent(getApplicationContext(), MyService.class);
 
@@ -40,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
             Log.i("TAG", "Service Started: ");
             //startService(serviceIntent);
             MyService.enqueueWork(this, serviceIntent);
+            Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         });
 
         btnStopMyService.setOnClickListener(v -> {
             Log.i("TAG", "Service Stopped: ");
             stopService(serviceIntent);
+            Toast.makeText(this, "Service Stopped", Toast.LENGTH_SHORT).show();
         });
     }
 }
