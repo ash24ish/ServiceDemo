@@ -1,10 +1,8 @@
 package com.ashishbharam.servicedemo;
 
 
-import android.app.IntentService;
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -18,21 +16,17 @@ public class MyService extends JobIntentService {
     private int mRandomNumber;
     private boolean isRandomGeneratorOn;
 
-    class MyServiceBinder extends Binder {
-        public MyService getService() {
-            return MyService.this;
-        }
-    }
-
-    private IBinder iBinder = new MyServiceBinder();
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         Log.i("TAG", "In onBind(): Executes only once, Components can be bind to both started,stopped or unstarted service");
-        return iBinder;
+        return super.onBind(intent);
     }
 
+    static void enqueueWork(Context context, Intent intent){
+        enqueueWork(context,MyService.class, 123, intent);
+    }
     /*@Override
     protected void onHandleIntent(@Nullable Intent intent) {
         //this method of IntentService class runs on background.

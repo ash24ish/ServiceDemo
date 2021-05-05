@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
         btnStartMyService.setOnClickListener(v -> {
             Log.i("TAG", "Service Started: ");
             //startService(serviceIntent);
-            MyService.enqueueWork(this,MyService.class,123,serviceIntent);
+            MyService.enqueueWork(this, serviceIntent);
         });
 
         btnStopMyService.setOnClickListener(v -> {
             Log.i("TAG", "Service Stopped: ");
             stopService(serviceIntent);
         });
-
+/*
         btnBind.setOnClickListener(v -> {
             if (serviceConnection == null) {
                 serviceConnection = new ServiceConnection() {
@@ -83,6 +83,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 tvShowNumber.setText("Service Not Bound");
             }
-        });
+        });*/
     }
 }
