@@ -1,6 +1,7 @@
 package com.ashishbharam.servicedemo;
 
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -11,9 +12,14 @@ import androidx.annotation.Nullable;
 
 import java.util.Random;
 
-public class MyService extends Service {
+public class MyService extends IntentService {
     private int mRandomNumber;
     private boolean isRandomGeneratorOn;
+
+
+    public MyService() {
+        super(MyService.class.getSimpleName());
+    }
 
     class MyServiceBinder extends Binder {
         public MyService getService() {
@@ -31,6 +37,15 @@ public class MyService extends Service {
     }
 
     @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        //this method of IntentService class runs on background.
+        //this class is deprecated in API level 30. Use JobIntentService class & its method onHandleWork().
+        isRandomGeneratorOn = true;
+        startRandomNumberGenerator();
+        Log.i("TAG", "In onHandleIntent, thread ID: " + Thread.currentThread().getId());
+    }
+
+    @Override
     public boolean onUnbind(Intent intent) {
         Log.i("TAG", "In onUnbind(): Executes only once, you can not stop service if don't Unbind it.");
         return super.onUnbind(intent);
@@ -44,19 +59,19 @@ public class MyService extends Service {
         stopRandomNumberGenerator();
     }
 
-    @Override
+    //No need of this method
+   /* @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("TAG", "In onStartCommand, MyService thread ID: " + Thread.currentThread().getId());
-        isRandomGeneratorOn = true;
         //here we are running function on separate thread bcz service->onStartCommand() runs on main thread.
         //if we don't use separate thread it will block the UI and lead to ANR.
-        new Thread(() -> {
-            startRandomNumberGenerator();
-        }).start();
+
+        //We are using IntentService class here so the function/logic which needs to run on background
+        //thread is moved from here to onHandleIntent().
 
         //return super.onStartCommand(intent, flags, startId);
         return START_STICKY;
-    }
+    }*/
 
     private void startRandomNumberGenerator() {
         while (isRandomGeneratorOn) {

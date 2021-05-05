@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             if (isServiceBound) {
                 tvShowNumber.setText("" + myService.getRandomNumber());
             } else {
-                tvShowNumber.setText("Service not Bound");
+                tvShowNumber.setText("Service Not Bound");
             }
         });
     }
