@@ -58,6 +58,10 @@ public class MyService extends JobIntentService {
                     Log.i("TAG", "startRandomNumberGenerator Thread id: " + Thread.currentThread().getId()
                             + " Random num:" + mRandomNumber);
                 }
+                else {
+                    Log.i("TAG","Service stopped");
+                    return;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 Log.d("TAG", "Thread Interrupted :" + e.getLocalizedMessage());
