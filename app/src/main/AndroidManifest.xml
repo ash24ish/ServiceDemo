@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".MyService" android:permission="android.permission.BIND_ON_WORK"/>
+        <service android:name=".MyService" android:permission="android.permission.BIND_ON_SERVICE"/>
     </application>
 
 </manifest>
