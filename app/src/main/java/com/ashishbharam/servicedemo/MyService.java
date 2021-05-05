@@ -20,7 +20,7 @@ public class MyService extends JobIntentService {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.i("TAG", "In onBind(): Executes only once, Components can be bind to both started,stopped or unstarted service");
+        Log.i("TAG", "In onBind(): ");
         return super.onBind(intent);
     }
 
@@ -32,7 +32,7 @@ public class MyService extends JobIntentService {
     protected void onHandleWork(@NonNull Intent intent) {
         isRandomGeneratorOn = true;
         startRandomNumberGenerator();
-        Log.i("TAG", "In onHandleIntent, thread ID: " + Thread.currentThread().getId());
+        Log.i("TAG", "In onHandleWork, thread ID: " + Thread.currentThread().getId());
     }
 
     @Override
@@ -71,7 +71,4 @@ public class MyService extends JobIntentService {
         isRandomGeneratorOn = false;
     }
 
-    public int getRandomNumber() {
-        return mRandomNumber;
-    }
 }

@@ -15,13 +15,9 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    MyService myService;
     Button btnStartMyService, btnStopMyService, btnUnbind, btnBind, btnShowNumber;
     TextView tvShowNumber;
     private Intent serviceIntent;
-
-    private boolean isServiceBound;
-    private ServiceConnection serviceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,39 +46,5 @@ public class MainActivity extends AppCompatActivity {
             Log.i("TAG", "Service Stopped: ");
             stopService(serviceIntent);
         });
-/*
-        btnBind.setOnClickListener(v -> {
-            if (serviceConnection == null) {
-                serviceConnection = new ServiceConnection() {
-                    @Override
-                    public void onServiceConnected(ComponentName name, IBinder iBinder) {
-                        MyService.MyServiceBinder myServiceBinder = (MyService.MyServiceBinder) iBinder;
-                        myService = myServiceBinder.getService();
-                        isServiceBound = true;
-                    }
-
-                    @Override
-                    public void onServiceDisconnected(ComponentName name) {
-                        isServiceBound = false;
-                    }
-                };
-            }
-            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-        });
-
-        btnUnbind.setOnClickListener(v -> {
-            if (isServiceBound) {
-                unbindService(serviceConnection);
-                isServiceBound = false;
-            }
-        });
-
-        btnShowNumber.setOnClickListener(v -> {
-            if (isServiceBound) {
-                tvShowNumber.setText("" + myService.getRandomNumber());
-            } else {
-                tvShowNumber.setText("Service Not Bound");
-            }
-        });*/
     }
 }
