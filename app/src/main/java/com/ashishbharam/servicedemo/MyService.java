@@ -42,9 +42,8 @@ public class MyService extends JobIntentService {
         stopRandomNumberGenerator();
     }
 
-    @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(@NonNull Intent intent) {
         Log.i("TAG", "In onBind(): ");
         return super.onBind(intent);
     }
