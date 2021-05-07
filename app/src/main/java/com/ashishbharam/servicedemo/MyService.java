@@ -26,7 +26,6 @@ public class MyService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        mRandomNumberOn = false;
         Log.i("TAG", "OnStopJob: ");
         return false;
         //return true to reschedule task
@@ -34,6 +33,7 @@ public class MyService extends JobService {
 
     @Override
     public void onDestroy() {
+        mRandomNumberOn = false;
         super.onDestroy();
         Log.i("TAG", "Service Destroyed Automatically");
     }
@@ -48,7 +48,6 @@ public class MyService extends JobService {
     private void startRandomNumberGenerator() {
         while (mRandomNumberOn) {
             try {
-                Log.i("TAG", "JobScheduler is force stopping the Service stopped");
                 Thread.sleep(1000);
                 mRandomNumber = new Random().nextInt(999 - 99) + 99;
                 Log.i("TAG", "startRandomNumberGenerator Thread id: "
@@ -56,7 +55,7 @@ public class MyService extends JobService {
                         + " Random num:" + mRandomNumber);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                Log.d("TAG", "Thread Interrupted :");
+                Log.i("TAG", "Thread Interrupted :");
 
             }
         }

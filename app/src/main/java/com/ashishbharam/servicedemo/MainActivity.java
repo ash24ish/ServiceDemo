@@ -5,11 +5,13 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ComponentInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPeriodic(15 * 60 * 1000)
                 .setPersisted(true)
                 .build();
+
         if (jobScheduler.schedule(jobInfo) == JobScheduler.RESULT_SUCCESS) {
             Log.i("TAG", "Job Scheduled Successfully : MainActivity Thread ID: " + Thread.currentThread().getId());
         } else {
