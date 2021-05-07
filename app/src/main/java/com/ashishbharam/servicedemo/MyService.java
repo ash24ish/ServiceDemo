@@ -34,7 +34,7 @@ public class MyService extends JobIntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("TAG", "Service Destroyed");
+        Log.i("TAG", "Service Destroyed Automatically");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MyService extends JobIntentService {
 
             }
         }
-        Log.i("TAG", "Service stopped" + starter);
+        Log.i("TAG", "Service stopped: " + starter);
         stopSelf();
     }
 
