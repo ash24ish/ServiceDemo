@@ -1,5 +1,7 @@
 package com.ashishbharam.servicedemo;
 
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -10,25 +12,24 @@ import androidx.core.app.JobIntentService;
 
 import java.util.Random;
 
-//Self stopping service
-public class MyService extends JobIntentService {
+public class MyService extends JobService {
     private int mRandomNumber;
+    private boolean mRandomNumberOn;
 
-    static void enqueueWork(Context context, Intent intent) {
-        enqueueWork(context, MyService.class, 123, intent);
+    @Override
+    public boolean onStartJob(JobParameters params) {
+        Log.i("TAG", "onStartJob");
+        doItOnBackgroundThread();
+        //return true for long running task;
+        return true;
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
-        startRandomNumberGenerator(intent.getStringExtra("starter"));
-        Log.i("TAG", "In onHandleWork, thread ID: " + Thread.currentThread().getId());
-    }
-
-    @Override
-    public boolean onStopCurrentWork() {
-        Log.i("TAG", "onStopCurrentWork Thread id: " + Thread.currentThread().getId()
-                + " Random num:" + mRandomNumber);
-        return super.onStopCurrentWork();
+    public boolean onStopJob(JobParameters params) {
+        mRandomNumberOn = false;
+        Log.i("TAG", "OnStopJob: ");
+        return false;
+        //return true to reschedule task
     }
 
     @Override
@@ -37,33 +38,27 @@ public class MyService extends JobIntentService {
         Log.i("TAG", "Service Destroyed Automatically");
     }
 
-    @Override
-    public IBinder onBind(@NonNull Intent intent) {
-        Log.i("TAG", "In onBind(): ");
-        return super.onBind(intent);
+    private void doItOnBackgroundThread() {
+        new Thread(() -> {
+            mRandomNumberOn = true;
+            startRandomNumberGenerator();
+        }).start();
     }
 
-    private void startRandomNumberGenerator(String starter) {
-        for (int i = 0; i < 5; i++) {
+    private void startRandomNumberGenerator() {
+        while (mRandomNumberOn) {
             try {
-                if (isStopped()) {
-                    Log.i("TAG", "JobScheduler is force stopping the Service stopped" + starter);
-                   return;
-                }
+                Log.i("TAG", "JobScheduler is force stopping the Service stopped");
                 Thread.sleep(1000);
                 mRandomNumber = new Random().nextInt(999 - 99) + 99;
                 Log.i("TAG", "startRandomNumberGenerator Thread id: "
                         + Thread.currentThread().getId()
-                        + " Random num:" + mRandomNumber
-                        + " " + starter);
+                        + " Random num:" + mRandomNumber);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                Log.d("TAG", "Thread Interrupted : starter" + starter);
+                Log.d("TAG", "Thread Interrupted :");
 
             }
         }
-        Log.i("TAG", "Service stopped: " + starter);
-        stopSelf();
     }
-
 }

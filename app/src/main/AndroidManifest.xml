@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ashishbharam.servicedemo">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <service android:name=".MyService"
-            android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
