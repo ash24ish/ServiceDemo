@@ -10,10 +10,9 @@ import androidx.core.app.JobIntentService;
 
 import java.util.Random;
 
+//Self stopping service
 public class MyService extends JobIntentService {
     private int mRandomNumber;
-    private boolean isRandomGeneratorOn;
-
 
     static void enqueueWork(Context context, Intent intent) {
         enqueueWork(context, MyService.class, 123, intent);
@@ -21,8 +20,7 @@ public class MyService extends JobIntentService {
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
-        isRandomGeneratorOn = true;
-        startRandomNumberGenerator();
+        startRandomNumberGenerator(intent.getStringExtra("starter"));
         Log.i("TAG", "In onHandleWork, thread ID: " + Thread.currentThread().getId());
     }
 
@@ -37,7 +35,6 @@ public class MyService extends JobIntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.i("TAG", "Service Destroyed");
-        stopRandomNumberGenerator();
     }
 
     @Override
@@ -46,28 +43,27 @@ public class MyService extends JobIntentService {
         return super.onBind(intent);
     }
 
-    private void startRandomNumberGenerator() {
-        while (isRandomGeneratorOn) {
+    private void startRandomNumberGenerator(String starter) {
+        for (int i = 0; i < 5; i++) {
             try {
+                if (isStopped()) {
+                    Log.i("TAG", "JobScheduler is force stopping the Service stopped" + starter);
+                   return;
+                }
                 Thread.sleep(1000);
-                if (isRandomGeneratorOn) {
-                    mRandomNumber = new Random().nextInt(999 - 99) + 99;
-                    Log.i("TAG", "startRandomNumberGenerator Thread id: " + Thread.currentThread().getId() + " Random num:" + mRandomNumber);
-                }
-                else {
-                    Log.i("TAG","Service stopped");
-                    return;
-                }
+                mRandomNumber = new Random().nextInt(999 - 99) + 99;
+                Log.i("TAG", "startRandomNumberGenerator Thread id: "
+                        + Thread.currentThread().getId()
+                        + " Random num:" + mRandomNumber
+                        + " " + starter);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                Log.d("TAG", "Thread Interrupted :" + e.getLocalizedMessage());
+                Log.d("TAG", "Thread Interrupted : starter" + starter);
 
             }
         }
-    }
-
-    public void stopRandomNumberGenerator() {
-        isRandomGeneratorOn = false;
+        Log.i("TAG", "Service stopped" + starter);
+        stopSelf();
     }
 
 }

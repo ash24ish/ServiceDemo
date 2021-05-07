@@ -13,11 +13,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 public class MainActivity extends AppCompatActivity {
 
     Button btnStartMyService, btnStopMyService;
     private Intent serviceIntent;
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         btnStartMyService.setOnClickListener(v -> {
             Log.i("TAG", "Service Started: ");
             //startService(serviceIntent);
+            serviceIntent.putExtra("starter","starter"+(++count));
             MyService.enqueueWork(this, serviceIntent);
             Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
         });
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btnStopMyService.setOnClickListener(v -> {
             Log.i("TAG", "Service Stopped: ");
             stopService(serviceIntent);
-            Toast.makeText(this, "Service Stopped", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Service will stop when task is done", Toast.LENGTH_SHORT).show();
         });
     }
 }
