@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnStartMyService, btnStopMyService;
@@ -46,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
         JobInfo jobInfo = new JobInfo.Builder(123, componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_CELLULAR)
                 .setRequiresCharging(false)
-                .setPeriodic(15*60*1000)
+                .setPeriodic(15 * 60 * 1000)
                 .setPersisted(true)
                 .build();
-        if (jobScheduler.schedule(jobInfo) == JobScheduler.RESULT_SUCCESS){
-            Log.i("TAG", "Job Scheduled Successfully : MainActivity Thread ID: "+Thread.currentThread().getId());
-        }else{
-            Log.i("TAG", "Job NOT Scheduled : MainActivity Thread ID: "+Thread.currentThread().getId());
+        if (jobScheduler.schedule(jobInfo) == JobScheduler.RESULT_SUCCESS) {
+            Log.i("TAG", "Job Scheduled Successfully : MainActivity Thread ID: " + Thread.currentThread().getId());
+        } else {
+            Log.i("TAG", "Job NOT Scheduled : MainActivity Thread ID: " + Thread.currentThread().getId());
         }
     }
 
