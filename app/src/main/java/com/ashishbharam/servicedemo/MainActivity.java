@@ -16,8 +16,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnStartMyService, btnStopMyService, btnUnbind, btnBind, btnShowNumber;
-    TextView tvShowNumber;
+    Button btnStartMyService, btnStopMyService;
     private Intent serviceIntent;
 
     @Override
